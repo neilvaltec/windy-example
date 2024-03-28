@@ -1,20 +1,121 @@
 <html>
     <head>
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
         <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
         <script src="https://api.windy.com/assets/map-forecast/libBoot.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <style>
             #windy {
                 width: 100%;
-                height: 300px;
+                height: 55%;
             }
-        </style>
+            #chat {
+                width: 50%; /* Set the width of the chat box to 80% */
+                height: 300px;
+                border: 1px solid #ccc;
+                padding: 10px;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+                margin: 0 auto; /* Centers the chat box horizontally */
+            }
+            .message {
+                max-width: 60%;
+                margin-bottom: 10px;
+                padding: 10px;
+                border-radius: 20px;
+            }
+            .user {
+                align-self: flex-end;
+                background-color: #007bff;
+                color: white;
+            }
+            .chatgpt {
+                align-self: flex-start;
+                background-color: #f1f0f0;
+                color: black;
+            }
+            /* Container to hold the input and button side by side */
+            .input-container {
+                display: flex;
+                width: 40%;
+                padding: 10px;
+                margin: 0 auto; /* Centers the chat box horizontally */
+                overflow-y: auto;
+                box-sizing: border-box;
+            }
+            #userInput {
+                flex-grow: 1; /* Allows input to grow and fill available space */
+                padding: 10px;
+                margin-right: 10px; /* Adds some space between the input and button */
+                box-sizing: border-box; /* Keeps padding inside width calculation */
+            }
+            #sendButton {
+                white-space: nowrap; /* Prevents wrapping text in the button */
+            }
+            .icon-container {
+                display: flex;
+                justify-content: flex-start;
+                padding-top: 10px;
+            }
+            .icon-container a {
+                margin: 0 5px;
+            }
+            .icon-container img {
+                width: 30px;
+                height: 30px;
+            }
+        </style> 
     </head>
     <body>
         <div id="windy"></div>
+        <div id="chat"></div>
+        <!-- Input container wrapping both the input and the button -->
+        <div class="input-container">
+            <input type="text" id="userInput" />
+            <button id="sendButton">Send</button>
+        </div>
         <script src="script.js"></script>
+        <script>
+            var chat = document.getElementById('chat');
+            var userInput = document.getElementById('userInput');
+            var sendButton = document.getElementById('sendButton');
+            var isUser = true;
+
+            function addMessage(text, sender) {
+                var messageElement = document.createElement('p');
+                messageElement.textContent = text;
+                messageElement.classList.add('message');
+                if (sender === 'user') {
+                    messageElement.classList.add('user');
+                } else {
+                    messageElement.classList.add('chatgpt');
+                }
+                chat.appendChild(messageElement);
+                chat.scrollTop = chat.scrollHeight;
+
+                if (sender === 'chatgpt'){
+                    var iconContainer = document.createElement('div');
+                    iconContainer.className = 'icon-container';
+                    iconContainer.innerHTML = 
+                        '<a href="#"><i class="fa fa-file" aria-hidden="true"></i></a>' +
+                        '<a href="#"><i class="fa fa-file" aria-hidden="true"></i></a>' +
+                        '<a href="#"><i class="fa fa-file" aria-hidden="true"></i></a>';
+
+                    chat.appendChild(iconContainer);
+                }
+            }
+
+            sendButton.addEventListener('click', function() {
+                var message = userInput.value.trim();
+                if (message) {
+                    addMessage(message, 'user');
+                    setTimeout(function() {
+                        addMessage("After checking bouys, weather, bird radar, and history fishing catch data, The top 3 highest locations are determined. Their detailed plans are attached, click icons below to download the plan.", 'chatgpt');
+                    }, 1000); // Simulate a response delay
+                    userInput.value = '';
+                }
+            });
+        </script>
     </body>
 </html>

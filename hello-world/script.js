@@ -1,6 +1,6 @@
 const options = {
     // Required: API key
-    key: 'PsLAtXpsPTZexBwUkO7Mx5I', // REPLACE WITH YOUR KEY !!!
+    key: 'vvVCA3x5BCnKBISloOZ7hIvts6wGvnR1', // REPLACE WITH YOUR KEY !!!
 
     // Put additional console output
     verbose: true,
@@ -17,6 +17,8 @@ windyInit(options, windyAPI => {
     // 'picker' and other usefull stuff
 
     const { map } = windyAPI;
+    const { store } = windyAPI;
+    store.set('particlesAnim', "off");
     // .map is instance of Leaflet map
 
     L.popup()
